@@ -27,7 +27,7 @@
 
 - name: Copy sudo config.
   copy: src=sudo-users dest=/etc/sudoers.d/users owner=root group=root mode=0440
-  when: ansible_distribution == 'Ubuntu' or ansible_distributioj == 'Debian'
+  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
 
 - name: Package install
   apt: name={{ item }} state=latest

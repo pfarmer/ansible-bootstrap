@@ -32,6 +32,9 @@
   copy: src=sudo-users dest=/etc/sudoers.d/users owner=root group=root mode=0440
   when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian' or ansible_distribution == 'CentOS'
 
+- name: update Ubuntu packages
+  apt: update_cache=true
+
 - name: Package install (Ubuntu/Debian)
   apt: name={{ item }} state=latest
   with_items:

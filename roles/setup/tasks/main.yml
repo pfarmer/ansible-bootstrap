@@ -19,7 +19,22 @@
 
 - name: Restart sshd
   service: name=ssh state=restarted
+  when: ansible_distribution == 'Ubuntu' or ansible_distributioj == 'Debian'
+
+- name: Restart sshd
+  service: name=sshd state=restarted
+  when: ansible_distribution == 'CentOS'
 
 - name: Copy sudo config.
   copy: src=sudo-users dest=/etc/sudoers.d/users owner=root group=root mode=0440
+  when: ansible_distribution == 'Ubuntu' or ansible_distributioj == 'Debian'
 
+- name: Package install
+  apt: name={{ item }} state=latest
+  with_items:
+  - unzip
+  - vim
+  - unattended-upgrades
+  - screen
+  - python-setuptools
+  when: ansible_distribution == 'Ubuntu'

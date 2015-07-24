@@ -32,16 +32,8 @@
   copy: src=sudo-users dest=/etc/sudoers.d/users owner=root group=root mode=0440
   when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian' or ansible_distribution == 'CentOS'
 
-- name: update apt cache
-  apt: update_cache=true
-  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
-
-- name: update yum cache
-  yum: update_cache=true
-  when: ansible_distribution == 'CentOS'
-
 - name: Package install (Ubuntu/Debian)
-  apt: name={{ item }} state=latest
+  apt: name={{ item }} state=latest update_cache=true
   with_items:
   - unzip
   - vim
@@ -51,7 +43,7 @@
   when: ansible_distribution == 'Ubuntu'
 
 - name: Package install (CentOS)
-  yum: name={{ item }} state=latest
+  yum: name={{ item }} state=latest update_cache=true
   with_items:
   - unzip
   - vim

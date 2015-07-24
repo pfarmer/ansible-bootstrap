@@ -1,0 +1,22 @@
+---
+- name: Create pfarmer group
+  group: name=pfarmer gid=1000
+  
+- name: Create pfarmer user
+  user: name=pfarmer shell=/bin/bash uid=1000 group=pfarmer
+
+- name: Create .ssh directory for pfarmer user
+  file: path=/home/pfarmer/.ssh state=directory owner=pfarmer mode=0700 group=pfarmer
+  
+- name: Copy authorized_keys into place.
+  copy: src=authorized_keys dest=/home/pfarmer/.ssh/authorized_keys mode=0400 group=pfarmer owner=pfarmer
+
+- name: Copy sshd config.
+  copy: src=sshd_config dest=/etc/ssh/sshd_config
+
+- name: Restart sshd
+  service: name=ssh state=restarted
+
+- name: Copy sudo config.
+  copy: src=sudo-users dest=/etc/sudoers.d/users owner=root group=root mode=0440
+

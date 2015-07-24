@@ -1,0 +1,14 @@
+user]
+    name = Peter Farmer
+    email = pfarmer@gmail.com
+[push]
+    default = simple
+[alias]
+    ci = commit -a
+    co = checkout
+    st = status
+    hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+    changelog = log --pretty=format:\"%ad | %s%d [%an]\" --date=short
+    type = cat-file -t
+    dump = cat-file -p
+    brv = branch -v

@@ -11,6 +11,9 @@
 - name: Copy authorized_keys into place.
   copy: src=authorized_keys dest=/home/pfarmer/.ssh/authorized_keys mode=0400 group=pfarmer owner=pfarmer
 
+- name: Copy .gitconfig into place.
+  copy: src=gitconfig dest=/home/pfarmer/.gitconfig mode=0644 group=pfarmer owner=pfarmer
+
 - name: Copy sshd config.
   copy: src=sshd_config dest=/etc/ssh/sshd_config
 

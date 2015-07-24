@@ -48,3 +48,16 @@
   - unzip
   - vim
   when: ansible_distribution == 'CentOS'
+
+- name: Package cleanup
+  apt: name={{ item }} state=absent
+  with_items:
+  - nano
+  when: ansible_distribution == 'Ubuntu'
+
+- name: Package cleanup
+  yum: name={{ item }} state=absent
+  with_items:
+  - nano
+  when: ansible_distribution == 'CentOS'
+

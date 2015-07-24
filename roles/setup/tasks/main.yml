@@ -38,3 +38,9 @@
   - screen
   - python-setuptools
   when: ansible_distribution == 'Ubuntu'
+
+  yum: name={{ item }} state=latest
+  with_items:
+  - unzip
+  - vim
+  when: ansible_distribution == 'CentOS'

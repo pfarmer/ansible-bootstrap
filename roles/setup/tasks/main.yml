@@ -11,6 +11,9 @@
 - name: Copy authorized_keys into place.
   copy: src=authorized_keys dest=/home/pfarmer/.ssh/authorized_keys mode=0400 group=pfarmer owner=pfarmer
 
+- name: Copy .ssh/config into place.
+  copy: src=ssh_config dest=/home/pfarmer/.ssh/config mode=0400 group=pfarmer owner=pfarmer
+
 - name: Copy .gitconfig into place.
   copy: src=gitconfig dest=/home/pfarmer/.gitconfig mode=0644 group=pfarmer owner=pfarmer
 
@@ -27,7 +30,7 @@
 
 - name: Copy sudo config.
   copy: src=sudo-users dest=/etc/sudoers.d/users owner=root group=root mode=0440
-  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian' or ansible_distribution == 'CentOS'
 
 - name: Package install (Ubuntu/Debian)
   apt: name={{ item }} state=latest

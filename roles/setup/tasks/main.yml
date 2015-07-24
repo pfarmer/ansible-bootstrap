@@ -39,7 +39,7 @@
   - python-setuptools
   when: ansible_distribution == 'Ubuntu'
 
--name: Package install (CentOS)
+- name: Package install (CentOS)
   yum: name={{ item }} state=latest
   with_items:
   - unzip

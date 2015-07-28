@@ -61,3 +61,8 @@
   - nano
   when: ansible_distribution == 'CentOS'
 
+- name: osquery repo key
+  apt_key: keyserver=keyserver.ubuntu.com id=C9D8B80B
+
+- name: osquery repo
+  apt_repository: repo="deb [arch=amd64] https://osquery-packages.s3.amazonaws.com/trusty trusty main"

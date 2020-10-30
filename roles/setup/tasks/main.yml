@@ -3,7 +3,7 @@
   group: name=pfarmer gid=1000
   
 - name: Create pfarmer user
-  user: name=pfarmer shell=/bin/bash uid=1000 group=pfarmer
+  user: name=pfarmer shell=/usr/bin/zsh uid=1000 group=pfarmer
 
 - name: Create .ssh directory for pfarmer user
   file: path=/home/pfarmer/.ssh state=directory owner=pfarmer mode=0700 group=pfarmer
@@ -22,15 +22,9 @@
 
 - name: Restart sshd
   service: name=ssh state=restarted
-  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
-
-- name: Restart sshd
-  service: name=sshd state=restarted
-  when: ansible_distribution == 'CentOS'
 
 - name: Copy sudo config.
   copy: src=sudo-users dest=/etc/sudoers.d/users owner=root group=root mode=0440
-  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian' or ansible_distribution == 'CentOS'
 
 - name: Package install (Ubuntu/Debian)
   apt: name={{ item }} state=latest update_cache=true
@@ -40,29 +34,8 @@
   - unattended-upgrades
   - screen
   - python-setuptools
-  when: ansible_distribution == 'Ubuntu'
-
-- name: Package install (CentOS)
-  yum: name={{ item }} state=latest update_cache=true
-  with_items:
-  - unzip
-  - vim
-  when: ansible_distribution == 'CentOS'
 
 - name: Package cleanup
   apt: name={{ item }} state=absent
   with_items:
   - nano
-  when: ansible_distribution == 'Ubuntu'
-
-- name: Package cleanup
-  yum: name={{ item }} state=absent
-  with_items:
-  - nano
-  when: ansible_distribution == 'CentOS'
-
-- name: osquery repo key
-  apt_key: keyserver=keyserver.ubuntu.com id=C9D8B80B
-
-- name: osquery repo
-  apt_repository: repo="deb [arch=amd64] https://osquery-packages.s3.amazonaws.com/trusty trusty main"
